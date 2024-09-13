@@ -1,0 +1,189 @@
+/* General body styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #0e0f12;
+  color: #fff;
+}
+
+/* Make inputs and graph stackable for smaller screens */
+.calculator-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  background-color: #1e2029;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Stack inputs and graph vertically on smaller screens */
+@media screen and (max-width: 768px) {
+  .calculator-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .inputs, .graph {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.inputs {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px; /* Add spacing between inputs */
+}
+
+/* Input field styling */
+input[type="number"] {
+  background-color: #252830;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+}
+
+input[type="number"]::placeholder {
+  color: #a1a1a1;
+}
+
+input[type="number"]:focus {
+  outline: 2px solid #00d46a;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+/* Button */
+button {
+  background-color: #00d46a;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #00b659;
+  transform: scale(1.05);
+}
+
+.graph {
+  width: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  width: 90%; /* Increase chart width */
+  height: auto;
+  background-color: #1a1c22;
+  border-radius: 12px;
+}
+
+/* Returns box */
+.returns-box {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.returns-card {
+  background-color: #1a1c22;
+  padding: 20px;
+  border-radius: 15px;
+  width: 45%;
+  text-align: center;
+}
+
+.returns-card h2 {
+  font-size: 1.3rem;
+  color: #d1d1d1;
+}
+
+.returns-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.graystone-card {
+  background-color: #252830;
+}
+
+.graystone-card p {
+  color: #00d46a;
+}
+
+/* Mobile responsiveness for returns box */
+@media screen and (max-width: 768px) {
+  .returns-box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .returns-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+/* Toggle Switch CSS (Updated to make the dot slide from left to right) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 25px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  transition: 0.4s;
+  border-radius: 25px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* Change slider background and slide dot to the right */
+input:checked + .slider {
+  background-color: #00d46a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px); /* Moves the dot to the right */
+}
