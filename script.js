@@ -59,37 +59,33 @@ function formatNumber(num) {
 // Function to calculate returns
 function calculateReturns() {
   const investableCash = parseFloat(document.getElementById('investable-cash').value) || 0;
-  const monthlyPercentReturn = parseInt(document.getElementById('risk-appetite').value) || 5;
-  const isYears = document.getElementById('btn-years').classList.contains('active'); // Determine if it's years or months
+  const monthlyReturn = parseFloat(document.getElementById('risk-appetite').value) / 100;
+  const isMonths = document.getElementById('months-btn').classList.contains('active');
 
   let timePeriods = [];
   let marketReturns = [];
   let prismPointReturns = [];
 
-  let monthlyReturn = monthlyPercentReturn / 100;
-
-  if (!isYears) {
-    // Calculate for months (12 months)
-    for (let i = 1; i <= 12; i++) { // Change starts here: i = 1 to ensure it starts from 1
-      timePeriods.push(i.toString());
+  if (isMonths) {
+    for (let i = 1; i <= 12; i++) {
+      timePeriods.push(i); // Use 1 to 12 for months
       const marketReturn = investableCash * Math.pow(1 + 0.10 / 12, i); // Monthly compounding for market
       marketReturns.push(marketReturn);
       const prismPointReturn = investableCash * Math.pow(1 + monthlyReturn, i); // Monthly compounding for Prism Point
       prismPointReturns.push(prismPointReturn);
     }
     document.getElementById('return-period').innerText = '12 Months';
-    document.getElementById('return-period-prism-point').innerText = '12 Months';
+    document.getElementById('return-period-graystone').innerText = '12 Months';
   } else {
-    // Calculate for years (5 years)
-    for (let i = 1; i <= 5; i++) { // Change starts here: i = 1 to ensure it starts from 1
-      timePeriods.push(i.toString());
+    for (let i = 1; i <= 5; i++) {
+      timePeriods.push(i); // Use 1 to 5 for years
       const marketReturn = investableCash * Math.pow(1 + 0.10, i); // Annual compounding for market
       marketReturns.push(marketReturn);
       const prismPointReturn = investableCash * Math.pow(1 + monthlyReturn, i * 12); // Monthly compounding for Prism Point
       prismPointReturns.push(prismPointReturn);
     }
     document.getElementById('return-period').innerText = '5 Years';
-    document.getElementById('return-period-prism-point').innerText = '5 Years';
+    document.getElementById('return-period-graystone').innerText = '5 Years';
   }
 
   // Update chart data
@@ -98,18 +94,17 @@ function calculateReturns() {
   chart.data.datasets[1].data = prismPointReturns;
   chart.update();
 
-  // Update the return values and percentage for the last period
+  // Update the return values for the last period (5 years or 12 months)
   const marketFinalReturn = marketReturns[marketReturns.length - 1];
   const prismPointFinalReturn = prismPointReturns[prismPointReturns.length - 1];
-
-  const marketPercentReturn = ((marketFinalReturn - investableCash) / investableCash * 100).toFixed(1);
-  const prismPointPercentReturn = ((prismPointFinalReturn - investableCash) / investableCash * 100).toFixed(1);
-
   document.getElementById('market-return').innerText = `$${formatNumber(marketFinalReturn.toFixed(2))}`;
-  document.getElementById('prism-point-return').innerText = `$${formatNumber(prismPointFinalReturn.toFixed(2))}`;
+  document.getElementById('graystone-return').innerText = `$${formatNumber(prismPointFinalReturn.toFixed(2))}`;
 
-  document.getElementById('market-percent-return').innerText = `${marketPercentReturn}%`;
-  document.getElementById('prism-point-percent-return').innerText = `${prismPointPercentReturn}%`;
+  // Calculate and display percentage returns
+  const marketPercentReturn = (marketFinalReturn - investableCash) / investableCash * 100;
+  const prismPointPercentReturn = (prismPointFinalReturn - investableCash) / investableCash * 100;
+  document.getElementById('market-percent').innerText = `${marketPercentReturn.toFixed(1)}%`;
+  document.getElementById('graystone-percent').innerText = `${prismPointPercentReturn.toFixed(1)}%`;
 }
 
 // Event listener for the button
